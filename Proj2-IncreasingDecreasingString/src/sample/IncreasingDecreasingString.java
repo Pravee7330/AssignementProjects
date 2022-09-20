@@ -1,60 +1,57 @@
 package sample;
 
+import java.util.ArrayList;
 import java.util.Scanner;
-
-public class IncreasingDecreasingString {
-
+public class IncreasingDecreasingString{
 	
-	public static String sortingString(String s) {
-		StringBuilder sb= new StringBuilder();
-		int count =s.length();
-		
-		int[] frequency=new int[26];
+     public static String sortString(String s) {
+	  
+        ArrayList<Integer> frq = new ArrayList<Integer>();
+       try {
+             for(int i=0;i<26;i++)
+                       frq.add(0);
+             for(int i=0;i<s.length();i++)
+                       frq.set(s.charAt(i)-'a', frq.get(s.charAt(i)-'a')+1);
+       }catch( Exception e) {
+    	   System.out.println(" Please dont enter Uppercase && special  characters  in the String   ");
+       }
+
+        int par = 0;
+        
+        StringBuilder ans = new StringBuilder();
+       
+        boolean can = false;
+        do{
+            can = false;
+            StringBuilder ss = new StringBuilder();
+          
+            for(int i=0;i<26;i++)
+                 if(frq.get(i)>0){
+                      ss.append((char)(i+'a'));
+                        frq.set(i, frq.get(i)-1);
+                    can |= (frq.get(i) > 0);
+                }
+            if(par == 1)
+                ss.reverse();
+            par ^= 1;
+            ans.append(ss);
+        } while(can == true);
+        return ans.toString();
+    }
+    
+  public static void main (String[] args) throws java.lang.Exception  {
+	 
+	  try (Scanner scn = new Scanner(System.in)) {
+		System.out.println("Enter the String :: ");
+		  String str=scn.next();
+         
+           
+		  if(str.length()>=50 ) {
 		  
-		 for(int i=0; i<count; i++){
-			 frequency[s.charAt(i) - 'a']++;
-			 
-		 }
-		 while(count>0) {
-			 for(int i=0; i<frequency.length;i++) {
-				  if(frequency[i] !=0) {
-					  sb.append((char)(i+97));
-					     frequency[i]--;
-					     count--;
-					  
-				  }
-			 }
-				  for(int i=frequency.length-1;i>=0;i--) {
-					  if(frequency[i] !=0) {
-						  sb.append((char)(i+97));
-						  frequency[i]--;
-						  count--;
-						  
-					  }//if
-			 }	 //for
-		 }//while
-		return sb.toString();
-	}//method
-	
-	
-	
-	public static void main(String[] args) {
-	    Scanner scn= new Scanner(System.in);
-	    System.out.println("Enter a String  :: " );
-		String  str =scn.nextLine();
-		
-	//	IncreasingDecreasingString ids= new IncreasingDecreasingString();
-		
-		sortingString(str);
-		
+			  System.out.println(" invalid String Enter String with below 50 characters ");
+		  
+		  }else 
+			  System.out.print(sortString(str));
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-}//class
+  }
+}
